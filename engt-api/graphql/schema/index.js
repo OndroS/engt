@@ -1,0 +1,89 @@
+const { buildSchema } = require('graphql')
+
+
+module.exports = buildSchema(`
+
+  type User {
+    _id: ID!
+    email: String!
+    password: String!
+    createdAt: String!
+  }
+
+  type Auth {
+    email: String!
+    accessToken: String!
+  }
+
+  type Question {
+    _id: ID!
+    text: String!
+    createdAt: String!
+  }
+
+  type Answer {
+    _id: ID!
+    text: String!
+    correct: Boolean!
+    questionId: ID!
+    createdAt: String!
+  }
+
+  type Hintnote {
+    _id: ID!
+    text: String!
+    questionId: ID!
+    createdAt: String!
+  }
+
+  input UserInput {
+    email: String!
+    password: String!
+  }
+
+  input QuestionInput {
+    text: String!
+  }
+
+  input QuestionID {
+    _id: ID!
+  }
+
+  input AnswerInput {
+    text: String!
+    correct: Boolean!
+    questionId: ID!
+  }
+
+  input HintnoteInput {
+    text: String!
+    questionId: ID!
+  }
+
+  type QuestionWithAnswers {
+    question: Question!
+    answers: [Answer!]!
+  }
+
+  type Query {
+    login(user:UserInput):Auth 
+    questions:[Question!]
+    getAnswersByQuestionId(answer:QuestionID):[Answer!]
+    getHintnotesByQuestionId(hintnote:QuestionID):[Hintnote!]
+    answers: [Answer!]
+    hintnotes: [Hintnote!]
+    getAllQuestionsWithAnswers: [QuestionWithAnswers!]!
+  }
+
+  type Mutation {
+    register(user:UserInput): User
+    createQuestion(question:QuestionInput): Question
+    createAnswer(answer:AnswerInput): Answer
+    createHintnote(hintnote:HintnoteInput): Hintnote
+  }
+
+  schema {
+    query: Query
+    mutation: Mutation
+  }
+`)

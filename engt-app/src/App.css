@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "Barlow-SemiBold";
+  src: local("Barlow-SemiBold"),
+    url(./fonts/Barlow-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Barlow-Regular";
+  src: local("Barlow-Regular"),
+    url(./fonts/Barlow-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Barlow-Regular";
+  src: local("Barlow-Regular"),
+    url(./fonts/Barlow-Regular.ttf) format("truetype");
+}
+
+.App {
+  text-align: center;
+  margin: 2rem 0;
+  font-family: "Barlow-Regular";
+}
+
+
