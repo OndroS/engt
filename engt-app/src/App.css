@@ -1,4 +1,9 @@
 @font-face {
+  font-family: "Barlow-Bold";
+  src: local("Barlow-Bold"), url(./fonts/Barlow-Bold.ttf) format("truetype");
+}
+
+@font-face {
   font-family: "Barlow-SemiBold";
   src: local("Barlow-SemiBold"),
     url(./fonts/Barlow-SemiBold.ttf) format("truetype");
@@ -10,16 +15,182 @@
     url(./fonts/Barlow-Regular.ttf) format("truetype");
 }
 
-@font-face {
-  font-family: "Barlow-Regular";
-  src: local("Barlow-Regular"),
-    url(./fonts/Barlow-Regular.ttf) format("truetype");
-}
-
 .App {
   text-align: center;
-  margin: 2rem 0;
   font-family: "Barlow-Regular";
+  background-color: #f8f8fa;
 }
 
+.header-navbar {
+  background-color: #fff;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 80px;
+}
 
+.header {
+  margin: 0 auto;
+}
+
+.header-h1 {
+  color: #00070b;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.header-h2 {
+  color: #00070b;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.question-box {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 32px 24px;
+  background: #fff;
+}
+
+/* //////////////////////////////////// */
+
+.question-box-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.question-counter {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* //////////////////////////////////// */
+
+.question {
+  margin: 32px 0px;
+  text-align: left;
+}
+
+.question-text {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+}
+
+.answers {
+  margin-bottom: 32px;
+}
+
+.answer-btn {
+  padding: 24px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(165, 165, 167, 0.3);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.correct {
+  border: 1px solid #00b873;
+  background: rgba(0, 184, 115, 0.05);
+}
+
+.wrong {
+  border: 1px solid #eb0f2e;
+  background: rgba(235, 15, 46, 0.05);
+}
+
+.result-correct {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  color: #00b873;
+}
+
+.result-wrong {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  color: #eb0f2e;
+}
+
+/* //////////////////////////////////// */
+
+.wizard-btn {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 20px;
+}
+
+button.wizard-btn.btn.btn-primary svg {
+  margin-bottom: 4px;
+}
+
+/* //////////////////////////////////// */
+
+
+.time-out {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+  text-align: left;
+  padding: 32px 0px;
+}
+
+.reset-btn {
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border: 2px solid rgba(0, 7, 11, 0.5);
+}
+
+.score-header {
+  font-family: "Barlow-Bold";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.score-text {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  padding: 32px 0px;
+}
+
+/* //////////////////////////////////// */
+
+
+.hintnote {
+  text-align: left;
+}
+
+.hintnote p {
+  color: rgba(0, 7, 11, 0.75);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.hintnote p svg {
+  fill: #eb0f2e;
+  margin-bottom: 3px;
+}
+
+p span.result-wrong {
+  margin-left: 8px;
+  margin-right: 8px;
+}

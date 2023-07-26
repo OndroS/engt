@@ -199,15 +199,16 @@ module.exports = {
         }
     },
 
-    getAllQuestionsWithAnswers: async () => {
+    getAllQuestionsWithAnswers: async () => { // TODO: Use mongo populate instead
         try {
             // Fetch all questions
             const questions = await Question.find();
 
-            // Fetch answers for each question and create the QuestionWithAnswers array
-            const questionWithAnswersArray = await Promise.all(
+            // Fetch answers and hint notes for each question and create the QuestionWithDetails array
+            const questionWithDetailsArray = await Promise.all(
                 questions.map(async (question) => {
                     const answers = await Answer.find({ questionId: question._id });
+                    const hintNotes = await Hintnote.find({ questionId: question._id });
 
                     return {
                         question: {
@@ -224,13 +225,20 @@ module.exports = {
                             questionId: answer.questionId,
                             createdAt: new Date(answer._doc.createdAt).toISOString(),
                         })),
+                        hintnotes: hintNotes.map((hintnote) => ({
+                            ...hintnote._doc,
+                            _id: hintnote._id,
+                            text: hintnote.text,
+                            questionId: hintnote.questionId,
+                            createdAt: new Date(hintnote._doc.createdAt).toISOString(),
+                        })),
                     };
                 })
             );
-
-            return questionWithAnswersArray;
+            
+            return questionWithDetailsArray;
         } catch (error) {
             throw error;
         }
-    },
+    }
 } 

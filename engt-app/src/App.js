@@ -1,7 +1,11 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import './App.css';
+import { ArrowRight, XCircleFill } from 'react-bootstrap-icons';
+
+import { Button, Container, Navbar } from 'react-bootstrap';
 
 const GET_QUESTIONS = gql`
   {
@@ -15,27 +19,18 @@ const GET_QUESTIONS = gql`
          text
          correct
        }
+       hintnotes {
+        _id
+        text
+      }
      } 
   }
 `;
 
-const Question = ({ question, answers, onSelectAnswer }) => (
-    <div className='Question'>
+const Question = ({ question }) => (
+    <div className='question'>
         <div>
-            <h1 className='Question-text'>{question.text}</h1>
-            {/* <div className='Answers'>
-                {answers.map((answer) => (
-                    <div key={answer._id}>
-                        <button
-                            onClick={() => onSelectAnswer(question._id, answer._id, answer.correct)}
-                            className='Answer-btn'
-                        >
-                            {answer.text}
-                        </button>
-                        <br/>
-                    </div>
-                ))}
-            </div> */}
+            <div className='question-text'>{question.text}</div>
         </div>
     </div>
 );
@@ -48,6 +43,10 @@ function App() {
     const [isPaused, setIsPaused] = useState(false);
     const [finished, setFinished] = useState(false);
     const [score, setScore] = useState(0);
+    const [numCorrectAnswers, setNumCorrectAnswers] = useState(0);
+    const [showBtnNext, setShowBtnNext] = useState(false);
+    const [showHintNote, setShowHintNote] = useState(false);
+
 
     useEffect(() => {
         let timer;
@@ -68,23 +67,26 @@ function App() {
                 correct,
             },
         }));
-        handlePauseResumeTimer();
-    };
-
-    const handlePauseResumeTimer = () => {
-        setIsPaused((prevIsPaused) => !prevIsPaused);
+        setShowHintNote(!correct);
+        setIsPaused(true)
+        setShowBtnNext(true)
     };
 
     const handleNextQuestion = () => {
-        handlePauseResumeTimer()
+        setIsPaused(false)
         setTimeRemaining(30);
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+        setShowBtnNext(false)
+        setShowHintNote(false)
     };
 
     const handleFinish = () => {
         setFinished(true)
         const score = calculateUserScore(userAnswers);
-        setScore(score)
+        setScore(score.scorePercentage)
+        setNumCorrectAnswers(score.correctAnswers)
+        setShowBtnNext(true)
+        setShowHintNote(false)
     };
 
     const handleReset = () => {
@@ -93,23 +95,25 @@ function App() {
         setTimeRemaining(30)
         setIsPaused(false)
         setFinished(false)
+        setShowBtnNext(false)
+        setShowHintNote(false)
     };
 
     function calculateUserScore(userAnswers) {
         const totalQuestions = Object.keys(data.getAllQuestionsWithAnswers).length;
         let correctAnswers = 0;
-      
+
         for (const questionId in userAnswers) {
-          if (userAnswers.hasOwnProperty(questionId)) {
-            if (userAnswers[questionId].correct) {
-              correctAnswers++;
+            if (userAnswers.hasOwnProperty(questionId)) {
+                if (userAnswers[questionId].correct) {
+                    correctAnswers++;
+                }
             }
-          }
         }
-      
+
         const scorePercentage = (correctAnswers / totalQuestions) * 100;
-        return scorePercentage;
-      }
+        return { scorePercentage, correctAnswers };
+    }
 
     const currentQuestion = data.getAllQuestionsWithAnswers[currentQuestionIndex].question;
     const currentAnswers = data.getAllQuestionsWithAnswers[currentQuestionIndex].answers;
@@ -117,66 +121,116 @@ function App() {
 
     return (
         <main className='App'>
-            <h1>Python: Podmínky a metody</h1>
-            <p>
-                Lekce {currentQuestionIndex + 1} / {data.getAllQuestionsWithAnswers.length}: Podmínky
-            </p>
-            {!finished && (
-                timeRemaining > 0 ?
-                    <div>
-                        <Question question={currentQuestion} answers={currentAnswers} onSelectAnswer={handleSelectAnswer} />
-                        <p>Time remaining: {timeRemaining} seconds</p>
-                        {currentAnswers.map((answer) => {
-                            let buttonClassName = 'Answer-btn';
-                            let buttonText = answer.text;
-                            if (userAnswers[currentQuestion._id]) {
-                                if (answer._id === userAnswers[currentQuestion._id].answerId) {
-                                    if (answer.correct) {
-                                        buttonClassName = 'Correct-answer-btn';
-                                        buttonText = 'Correct answer!';
-                                    } else {
-                                        buttonClassName = 'Wrong-answer-btn';
-                                        buttonText = 'Wrong answer';
-                                    }
-                                } else if (answer.correct) {
-                                    buttonClassName = 'Correct-answer-btn';
-                                    buttonText = 'This is the correct answer';
-                                }
-                            }
+            <Navbar className='header-navbar' expand="xxl">
+                <div className='header'>
+                    <div className='header-h1'>Python: Podmínky a metody</div>
+                    <div className='header-h2'>Lekce {currentQuestionIndex + 1} / {data.getAllQuestionsWithAnswers.length}: Podmínky</div>
+                </div>
+            </Navbar>
+            <Container>
+                <div className='box'>
+                    <div className='question-box'>
+                        {!finished &&
+                            <div className='question-box-header'>
+                                <div className='question-counter'>Otázka {currentQuestionIndex + 1} / {data.getAllQuestionsWithAnswers.length}</div>
+                                <div className='question-counter'>Zbývá {timeRemaining} sekund</div>
+                            </div>
+                        }
+                        {!finished && (
+                            timeRemaining > 0 ?
+                                <div>
+                                    <Question question={currentQuestion} answers={currentAnswers} />
 
-                            return (
-                                <div key={answer._id}>
-                                    <button onClick={() => handleSelectAnswer(currentQuestion._id, answer._id, answer.correct)} className={buttonClassName}>
-                                        {buttonText}
-                                    </button>
-                                    <br />
+                                    <div className='answers'>
+                                        {currentAnswers.map((answer) => {
+                                            let buttonClassName = 'answer-btn';
+                                            let buttonText;
+                                            let resultClassName;
+                                            if (userAnswers[currentQuestion._id]) {
+                                                if (answer._id === userAnswers[currentQuestion._id].answerId) {
+                                                    if (answer.correct) {
+                                                        buttonClassName = 'correct answer-btn';
+                                                        resultClassName = 'result-correct'
+                                                        buttonText = 'Správně';
+                                                    } else {
+                                                        buttonClassName = 'wrong answer-btn';
+                                                        resultClassName = 'result-wrong'
+                                                        buttonText = 'Špatně';
+                                                    }
+                                                } else if (answer.correct) {
+                                                    buttonClassName = 'correct answer-btn';
+                                                    resultClassName = 'result-correct'
+                                                    buttonText = 'Má být správně';
+                                                }
+                                            }
+
+                                            return (
+
+                                                <div key={answer._id}>
+                                                    <div onClick={() => handleSelectAnswer(currentQuestion._id, answer._id, answer.correct)} className={buttonClassName}>
+                                                        <div>{answer.text}</div>
+                                                        <div className={resultClassName}>{buttonText}</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                        {showHintNote && (
+                                            <div className="hintnote">
+                                                <p><XCircleFill /><span className='result-wrong'>Špatně</span>{data.getAllQuestionsWithAnswers[currentQuestionIndex].hintnotes[0].text}</p>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            );
-                        })}
+                                :
+                                <div>
+                                    <div className='time-out'>Časový limit 30 sekund na otázku vypršel. Přejdi za další otázku.</div>
+                                    {
+                                        !isLastQuestion ?
+                                            <Button variant="primary" onClick={handleNextQuestion} className='wizard-btn'>
+                                                další otázka
+                                            </Button>
+                                            :
+                                            <Button variant="primary" onClick={handleFinish} className='wizard-btn'>
+                                                Finish
+                                            </Button>
+                                    }
+                                </div>
+                        )
+                        }
+
+                        {finished &&
+                            <div>
+                                <div className='score-header'>
+                                    Skóre: {score}%
+                                </div>
+                                <div className='score-text'>
+                                    {numCorrectAnswers} z {data.getAllQuestionsWithAnswers.length} otázek máš správně
+                                </div>
+                            </div>
+                        }
+
+                        {showBtnNext ?
+                            (!isLastQuestion ? (
+                                <Button variant="primary" onClick={handleNextQuestion} className='wizard-btn'>
+                                    další otázka <ArrowRight />
+                                </Button>
+                            ) : (
+                                finished ?
+                                    <Button variant="light" onClick={handleReset} className='reset-btn'>
+                                        zkusit znovu
+                                    </Button>
+                                    :
+                                    <Button variant="primary" onClick={handleFinish} className='wizard-btn'>
+                                        dokončit kvíz
+                                    </Button>
+                            ))
+                            :
+                            null
+                        }
                     </div>
-                    :
-                    <div>Dosiel ti cas</div>
-            )
-            }
-
-            {finished &&
-                <div>Tvoje score je {score}%</div>
-            }
-
-            {!isLastQuestion ? (
-                <button onClick={handleNextQuestion} className='Next-btn'>
-                    Next
-                </button>
-            ) : (
-                finished ? 
-                <button onClick={handleReset} className='Reset-btn'>
-                    Reset
-                </button>
-                :
-                <button onClick={handleFinish} className='Finish-btn'>
-                    Finish
-                </button>
-            )}
+                </div>
+            </Container>
         </main>
     );
 }

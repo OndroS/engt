@@ -63,6 +63,7 @@ module.exports = buildSchema(`
   type QuestionWithAnswers {
     question: Question!
     answers: [Answer!]!
+    hintnotes: [Hintnote]!
   }
 
   type Query {
