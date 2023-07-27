@@ -1,0 +1,13 @@
+.question {
+  margin: 32px 0px;
+  text-align: left;
+}
+
+.question-text {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: #000;
+}
+
+

@@ -3,6 +3,8 @@ const { buildSchema } = require('graphql')
 
 module.exports = buildSchema(`
 
+  scalar JSONObject
+
   type User {
     _id: ID!
     email: String!
@@ -60,6 +62,16 @@ module.exports = buildSchema(`
     questionId: ID!
   }
 
+  type UserAnswers {
+    userAnswers: JSONObject
+    currentQuestionIndex: Int
+  }
+
+  input UserAnswersInput {
+    userAnswers: JSONObject
+    currentQuestionIndex: Int!
+  }
+
   type QuestionWithAnswers {
     question: Question!
     answers: [Answer!]!
@@ -74,6 +86,7 @@ module.exports = buildSchema(`
     answers: [Answer!]
     hintnotes: [Hintnote!]
     getAllQuestionsWithAnswers: [QuestionWithAnswers!]!
+    getUserAnswers: UserAnswers!
   }
 
   type Mutation {
@@ -81,6 +94,7 @@ module.exports = buildSchema(`
     createQuestion(question:QuestionInput): Question
     createAnswer(answer:AnswerInput): Answer
     createHintnote(hintnote:HintnoteInput): Hintnote
+    createUserAnswers(userAnswers:UserAnswersInput): UserAnswers
   }
 
   schema {

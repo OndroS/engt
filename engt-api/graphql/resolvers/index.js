@@ -5,6 +5,7 @@ const User = require('../../models/user')
 const Question = require('../../models/question')
 const Answer = require('../../models/answer')
 const Hintnote = require('../../models/hintnote')
+const UserAnswers = require('../../models/useranswers')
 
 module.exports = {
 
@@ -235,10 +236,49 @@ module.exports = {
                     };
                 })
             );
-            
+
             return questionWithDetailsArray;
         } catch (error) {
             throw error;
         }
-    }
+    },
+
+    getUserAnswers: async () => { // TODO: HOTFIX, BE MERCIFUL WHO IS READING THIS
+        try {
+            const userAnswersFetched = await UserAnswers.find().sort({ createdAt: -1 });
+
+            if (userAnswersFetched.length === 0) {
+                return null;
+            }
+
+            const newestUserAnswer = userAnswersFetched[0];
+            const { userAnswers, currentQuestionIndex } = newestUserAnswer;
+
+            return {
+                ...newestUserAnswer._doc,
+                userAnswers,
+                currentQuestionIndex,
+            };
+        }
+        catch (error) {
+            throw error
+        }
+    },
+
+    createUserAnswers: async args => {
+        try {
+            const { userAnswers, currentQuestionIndex } = args.userAnswers;
+
+            const useranswer = new UserAnswers({
+                userAnswers,
+                currentQuestionIndex
+            });
+
+            const newUseranswer = await useranswer.save();
+
+            return newUseranswer;
+        } catch (error) {
+            throw error;
+        }
+    },
 } 

@@ -1,0 +1,75 @@
+.answers {
+    margin-bottom: 32px;
+  }
+  
+  .answer-btn {
+    padding: 24px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(165, 165, 167, 0.3);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  
+  .correct {
+    border: 1px solid #00b873;
+    background: rgba(0, 184, 115, 0.05);
+  }
+  
+  .wrong {
+    border: 1px solid #eb0f2e;
+    background: rgba(235, 15, 46, 0.05);
+  }
+  
+  .result-correct {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    color: #00b873;
+  }
+  
+  .result-wrong {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    color: #eb0f2e;
+  }
+  
+  .wizard-btn {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 8px 20px;
+  }
+  
+  button.wizard-btn.btn.btn-primary svg {
+    margin-bottom: 4px;
+  }
+
+  .hintnote {
+    text-align: left;
+  }
+  
+  .hintnote p {
+    color: rgba(0, 7, 11, 0.75);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+  }
+  
+  .hintnote p svg {
+    fill: #eb0f2e;
+    margin-bottom: 3px;
+  }
+  
+  p span.result-wrong {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  

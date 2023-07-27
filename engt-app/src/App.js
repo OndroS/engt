@@ -1,13 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { ArrowRight, XCircleFill } from 'react-bootstrap-icons';
 
+import Question from './components/Question/Question';
+import Answers from './components/Answers/Answers'
+
+import { ArrowRight } from 'react-bootstrap-icons';
 import { Button, Container, Navbar } from 'react-bootstrap';
 
-const GET_QUESTIONS = gql`
+const GET_DATA = gql`
   {
     getAllQuestionsWithAnswers {
         question {
@@ -23,22 +26,30 @@ const GET_QUESTIONS = gql`
         _id
         text
       }
-     } 
+     },
+     getUserAnswers{
+        userAnswers
+        currentQuestionIndex
+    } 
   }
 `;
 
-const Question = ({ question }) => (
-    <div className='question'>
-        <div>
-            <div className='question-text'>{question.text}</div>
-        </div>
-    </div>
-);
+const ADD_USER_ANSWERS = gql`
+  mutation createUserAnswers($userAnswers: JSONObject, $currentQuestionIndex:Int!) {
+    createUserAnswers(userAnswers: {userAnswers: $userAnswers, currentQuestionIndex:$currentQuestionIndex}) {
+        userAnswers
+        currentQuestionIndex
+    }
+  }
+`;
 
 function App() {
-    const { loading, error, data } = useQuery(GET_QUESTIONS);
+    const { loading, error, data } = useQuery(GET_DATA);
+    const [createUserAnswers, { dataa, loadingg, errorr }] = useMutation(ADD_USER_ANSWERS);
+
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
+    const [loadedUserAnswers, setLoadedUserAnswers] = useState({});
     const [timeRemaining, setTimeRemaining] = useState(30);
     const [isPaused, setIsPaused] = useState(false);
     const [finished, setFinished] = useState(false);
@@ -47,7 +58,6 @@ function App() {
     const [showBtnNext, setShowBtnNext] = useState(false);
     const [showHintNote, setShowHintNote] = useState(false);
 
-
     useEffect(() => {
         let timer;
         if (!isPaused && timeRemaining > 0) {
@@ -55,6 +65,26 @@ function App() {
         }
         return () => clearInterval(timer);
     }, [timeRemaining, isPaused]);
+
+    useEffect(() => {
+        if (!loading && data) {
+            setLoadedUserAnswers(data.getUserAnswers)
+            console.log('setLoadedUserAnswers', data.getUserAnswers)
+            if (data.getUserAnswers.userAnswers) {
+                setIsPaused(true)
+                setShowBtnNext(true)
+                console.log('lol', JSON.parse(data.getUserAnswers.userAnswers))
+                const obj = JSON.parse(data.getUserAnswers.userAnswers);
+                for (const key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        const correctValue = obj[key].correct;
+                        console.log('correctValue ', correctValue);
+                        setShowHintNote(!correctValue)
+                    }
+                }
+            }
+        }
+    }, [data, loadedUserAnswers]);
 
     if (error) return <h1>Something went wrong!</h1>;
     if (loading) return <h1>Loading...</h1>;
@@ -70,7 +100,25 @@ function App() {
         setShowHintNote(!correct);
         setIsPaused(true)
         setShowBtnNext(true)
+
+        let answerToSave = {
+            ...userAnswers,
+            [questionId]: {
+                answerId,
+                correct,
+            },
+        }
+
+        handleSaveUserAnswers(JSON.stringify(answerToSave), currentQuestionIndex)
     };
+
+    const handleSaveUserAnswers = (_userAnswers, _currentQuestionIndex) => {
+        createUserAnswers({ variables: { userAnswers: _userAnswers, currentQuestionIndex: _currentQuestionIndex } });
+    }
+
+    const handleResetUserAnswers = () => {
+        createUserAnswers({ variables: { userAnswers: {}, currentQuestionIndex: 0 } });
+    }
 
     const handleNextQuestion = () => {
         setIsPaused(false)
@@ -82,11 +130,14 @@ function App() {
 
     const handleFinish = () => {
         setFinished(true)
-        const score = calculateUserScore(userAnswers);
+        const score = calculateUserScore(userAnswers, data.getUserAnswers.userAnswers);
         setScore(score.scorePercentage)
         setNumCorrectAnswers(score.correctAnswers)
         setShowBtnNext(true)
         setShowHintNote(false)
+        handleResetUserAnswers()
+        setLoadedUserAnswers({})
+        data.getUserAnswers = {}
     };
 
     const handleReset = () => {
@@ -97,15 +148,32 @@ function App() {
         setFinished(false)
         setShowBtnNext(false)
         setShowHintNote(false)
+        // handleResetUserAnswers()
+        setLoadedUserAnswers({})
     };
 
-    function calculateUserScore(userAnswers) {
+    function calculateUserScore(_userAnswers, _loadedAnswers) {
+
+        console.log('userAnswers', _userAnswers)
+        console.log('_loadedAnswers', _loadedAnswers)
+
+        let mergedObj = _userAnswers;
+
+        if (_loadedAnswers) {
+            mergedObj = {
+                ..._userAnswers,
+                ...JSON.parse(_loadedAnswers)
+            };
+        }
+
+        console.log('mergedObj', mergedObj)
+
         const totalQuestions = Object.keys(data.getAllQuestionsWithAnswers).length;
         let correctAnswers = 0;
 
-        for (const questionId in userAnswers) {
-            if (userAnswers.hasOwnProperty(questionId)) {
-                if (userAnswers[questionId].correct) {
+        for (const questionId in mergedObj) {
+            if (mergedObj.hasOwnProperty(questionId)) {
+                if (mergedObj[questionId].correct) {
                     correctAnswers++;
                 }
             }
@@ -115,16 +183,21 @@ function App() {
         return { scorePercentage, correctAnswers };
     }
 
-    const currentQuestion = data.getAllQuestionsWithAnswers[currentQuestionIndex].question;
-    const currentAnswers = data.getAllQuestionsWithAnswers[currentQuestionIndex].answers;
-    const isLastQuestion = currentQuestionIndex === data.getAllQuestionsWithAnswers.length - 1;
+    // console.log('lol', loadedUserAnswers.currentQuestionIndex !== undefined ?  loadedUserAnswers.currentQuestionIndex : currentQuestionIndex)
+
+    let questionIndex = loadedUserAnswers.currentQuestionIndex ? loadedUserAnswers.currentQuestionIndex : currentQuestionIndex
+    // console.log('questionIndex ', questionIndex)
+    questionIndex = questionIndex > data.getAllQuestionsWithAnswers.length ? currentQuestionIndex : questionIndex
+    const currentQuestion = data.getAllQuestionsWithAnswers[questionIndex].question;
+    const currentAnswers = data.getAllQuestionsWithAnswers[questionIndex].answers;
+    const isLastQuestion = questionIndex === data.getAllQuestionsWithAnswers.length - 1;
 
     return (
         <main className='App'>
             <Navbar className='header-navbar' expand="xxl">
                 <div className='header'>
-                    <div className='header-h1'>Python: Podmínky a metody</div>
-                    <div className='header-h2'>Lekce {currentQuestionIndex + 1} / {data.getAllQuestionsWithAnswers.length}: Podmínky</div>
+                    <div className='header-h1'>JavaScript: Node.js</div>
+                    <div className='header-h2'>Lekce {questionIndex + 1} / {data.getAllQuestionsWithAnswers.length}: Základy</div>
                 </div>
             </Navbar>
             <Container>
@@ -132,55 +205,28 @@ function App() {
                     <div className='question-box'>
                         {!finished &&
                             <div className='question-box-header'>
-                                <div className='question-counter'>Otázka {currentQuestionIndex + 1} / {data.getAllQuestionsWithAnswers.length}</div>
+                                <div className='question-counter'>Otázka {questionIndex + 1} / {data.getAllQuestionsWithAnswers.length}</div>
                                 <div className='question-counter'>Zbývá {timeRemaining} sekund</div>
                             </div>
                         }
                         {!finished && (
                             timeRemaining > 0 ?
                                 <div>
-                                    <Question question={currentQuestion} answers={currentAnswers} />
-
-                                    <div className='answers'>
-                                        {currentAnswers.map((answer) => {
-                                            let buttonClassName = 'answer-btn';
-                                            let buttonText;
-                                            let resultClassName;
-                                            if (userAnswers[currentQuestion._id]) {
-                                                if (answer._id === userAnswers[currentQuestion._id].answerId) {
-                                                    if (answer.correct) {
-                                                        buttonClassName = 'correct answer-btn';
-                                                        resultClassName = 'result-correct'
-                                                        buttonText = 'Správně';
-                                                    } else {
-                                                        buttonClassName = 'wrong answer-btn';
-                                                        resultClassName = 'result-wrong'
-                                                        buttonText = 'Špatně';
-                                                    }
-                                                } else if (answer.correct) {
-                                                    buttonClassName = 'correct answer-btn';
-                                                    resultClassName = 'result-correct'
-                                                    buttonText = 'Má být správně';
-                                                }
-                                            }
-
-                                            return (
-
-                                                <div key={answer._id}>
-                                                    <div onClick={() => handleSelectAnswer(currentQuestion._id, answer._id, answer.correct)} className={buttonClassName}>
-                                                        <div>{answer.text}</div>
-                                                        <div className={resultClassName}>{buttonText}</div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                        {showHintNote && (
-                                            <div className="hintnote">
-                                                <p><XCircleFill /><span className='result-wrong'>Špatně</span>{data.getAllQuestionsWithAnswers[currentQuestionIndex].hintnotes[0].text}</p>
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
-                                            </div>
-                                        )}
-                                    </div>
+                                    <Question question={currentQuestion} />
+                                    {/* <code>var lol = 'lol';</code> */}
+                                    {/* {console.log('userAnswers ',  Object.keys(userAnswers).length)} */}
+                                    {/* {console.log('questionIndex ', questionIndex)} */}
+                                    {/* {console.log('loadedUserAnswers.userAnswers ', loadedUserAnswers.userAnswers)} */}
+                                    {/* {console.log('loadedUserAnswers ', loadedUserAnswers.userAnswers && JSON.parse(loadedUserAnswers.userAnswers))} */}
+                                    <Answers
+                                        data={data}
+                                        currentAnswers={currentAnswers}
+                                        userAnswers={Object.keys(userAnswers).length === 0 ? (loadedUserAnswers.userAnswers ? JSON.parse(loadedUserAnswers.userAnswers) : userAnswers) : userAnswers}
+                                        currentQuestion={currentQuestion}
+                                        currentQuestionIndex={questionIndex}
+                                        showHintNote={showHintNote}
+                                        handleSelectAnswer={handleSelectAnswer}
+                                    />
                                 </div>
                                 :
                                 <div>
@@ -196,8 +242,7 @@ function App() {
                                             </Button>
                                     }
                                 </div>
-                        )
-                        }
+                        )}
 
                         {finished &&
                             <div>
