@@ -2,8 +2,9 @@
     "env": {
         "MONGO_USER": "your_username",
         "MONGO_PASSWORD": "your_password",
-        "MONGO_DB": "your_database",
-        "SECRET_KEY": "sdd786asd212ntz67x"
-
+        "MONGO_DB_LOCALHOST": "mongodb://localhost:27017/graphqlapi",
+        "MONGO_DB": "mongodb+srv://engttest:engttest@clusterengt.qllkjdx.mongodb.net/engttest",
+        "SECRET_KEY": "sdd786asd212ntz67x",
+        "PORT": 8080
     }
 }

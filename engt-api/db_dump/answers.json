@@ -1,0 +1,385 @@
+[{
+  "_id": {
+    "$oid": "64bfa0e54ca77a71ac2682a3"
+  },
+  "text": "Backendový framework v JavaScripte",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T10:16:05.029Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T10:16:05.029Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfccb20bf49de42c9904b3"
+  },
+  "text": "Runtime prostredie pre beh JavaScriptu mimo prehliadača",
+  "correct": true,
+  "questionId": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:22:58.216Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:22:58.216Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfccb90bf49de42c9904b4"
+  },
+  "text": "Knihovňa pre prácu s databázami v Node.js",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:23:05.985Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:23:05.985Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfccc00bf49de42c9904b5"
+  },
+  "text": "Správcovský nástroj pre balíčky v JavaScripte",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:23:12.541Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:23:12.541Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfce0f513bdbdd64c5b161"
+  },
+  "text": "<code>npm add <názov balíčka></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:28:47.108Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:28:47.108Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfce13513bdbdd64c5b162"
+  },
+  "text": "<code>npm install <názov balíčka></code>",
+  "correct": true,
+  "questionId": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:28:51.971Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:28:51.971Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfce19513bdbdd64c5b163"
+  },
+  "text": "<code>node add <názov balíčka></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:28:57.296Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:28:57.296Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bfce20513bdbdd64c5b164"
+  },
+  "text": "<code>node install <názov balíčka></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:29:04.597Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:29:04.597Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2669dc32bf4e7c4b4820f"
+  },
+  "text": "<code>fs.createFile('novy_subor.txt')</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:44:13.768Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:44:13.768Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c266a2c32bf4e7c4b48212"
+  },
+  "text": "<code>fs.writeFile('novy_subor.txt')</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:44:18.547Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:44:18.547Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c266a6c32bf4e7c4b48215"
+  },
+  "text": "<code>fs.newFile('novy_subor.txt')</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:44:22.130Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:44:22.130Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c266a9c32bf4e7c4b48218"
+  },
+  "text": "<code>fs.open('novy_subor.txt', 'w')</code>",
+  "correct": true,
+  "questionId": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:44:25.397Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:44:25.397Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26773c32bf4e7c4b48248"
+  },
+  "text": "<code>setInterval(funkcia, 2000)</code>",
+  "correct": true,
+  "questionId": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:47:47.903Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:47:47.903Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2677ec32bf4e7c4b4824b"
+  },
+  "text": "<code>repeat(funkcia, 2)</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:47:58.099Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:47:58.099Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26783c32bf4e7c4b4824e"
+  },
+  "text": "<code>loop(funkcia, 2000)</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:48:03.488Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:48:03.488Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26787c32bf4e7c4b48251"
+  },
+  "text": "<code>runEvery(funkcia, 2)</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:48:07.808Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:48:07.808Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c267d4c32bf4e7c4b4828f"
+  },
+  "text": "<code>process.env.VARIABLE_NAME</code>",
+  "correct": true,
+  "questionId": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:49:24.571Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:49:24.571Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c267e4c32bf4e7c4b48292"
+  },
+  "text": "<code>ENV.VARIABLE_NAME</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:49:40.887Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:49:40.887Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c267e8c32bf4e7c4b48295"
+  },
+  "text": "<code>$VARIABLE_NAME</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:49:44.275Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:49:44.275Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c267ecc32bf4e7c4b48298"
+  },
+  "text": "<code>node.getEnv('VARIABLE_NAME')</code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:49:48.646Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:49:48.646Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2681cc32bf4e7c4b4829e"
+  },
+  "text": "<code>node start <nazov_suboru.js></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:50:36.712Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:50:36.712Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26828c32bf4e7c4b482a1"
+  },
+  "text": "<code>node run <nazov_suboru.js></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:50:48.229Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:50:48.229Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26830c32bf4e7c4b482a4"
+  },
+  "text": "<code>node execute <nazov_suboru.js></code>",
+  "correct": false,
+  "questionId": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:50:56.757Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:50:56.757Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c26834c32bf4e7c4b482a7"
+  },
+  "text": "<code>node <nazov_suboru.js></code>",
+  "correct": true,
+  "questionId": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:51:00.438Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:51:00.438Z"
+  },
+  "__v": 0
+}]

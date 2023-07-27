@@ -144,7 +144,6 @@ function App() {
     // Helper function to finish the quiz.
     const handleFinish = () => {
         setFinished(true)
-        console.log('handle finish: ', userAnswers, data.getUserAnswers.userAnswers)
         const score = calculateUserScore(userAnswers, data.getUserAnswers.userAnswers);
         setScore(score.scorePercentage)
         setNumCorrectAnswers(score.correctAnswers)

@@ -1,0 +1,25 @@
+services:
+  # MongoDB services
+  mongo_db:
+    container_name: mongo_db_container
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+  #Node API service
+  api:
+    container_name: node_api_container
+    build: .
+    ports:
+      - 8080:8080
+    environment:
+      SECRET_KEY: sdd786asd212ntz67x
+      MONGO_DB: mongodb://mongo_db:27017/graphqlapi
+      DB_NAME: graphqlapi
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}

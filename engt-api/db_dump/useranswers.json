@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "64c296044d92e6659884cbbc"
+  },
+  "userAnswers": {},
+  "currentQuestionIndex": 0,
+  "createdAt": {
+    "$date": "2023-07-27T16:06:28.300Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T17:32:06.320Z"
+  },
+  "__v": 0
+}]

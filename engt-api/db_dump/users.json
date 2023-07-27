@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "64bffc3f52f79bc10cb1e604"
+  },
+  "email": "lol@lol.com",
+  "password": "U2FsdGVkX185b8Hu7l0gDho5z4hXWDm4Ks5Ju7XmU1c=",
+  "createdAt": {
+    "$date": "2023-07-25T16:45:51.855Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T16:45:51.855Z"
+  },
+  "__v": 0
+}]

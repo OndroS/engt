@@ -31,9 +31,11 @@ app.use('/graphql', graphqlHttp((req) =>({
     graphiql: true
 })))
 
-const uri = `mongodb://localhost:27017/graphqlapi`
+const uri = process.env.MONGO_DB
 const options = { useNewUrlParser: true, useUnifiedTopology: true }
 
+const port = process.env.PORT || 8080;
+
 mongoose.connect(uri, options)
-    .then(() => app.listen(8080, console.log('Server is running')))
+    .then(() => app.listen(port, console.log('Server is running')))
     .catch(error => { throw error })

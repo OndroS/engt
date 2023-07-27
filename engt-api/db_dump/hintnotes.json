@@ -1,0 +1,91 @@
+[{
+  "_id": {
+    "$oid": "64bfcbf1427156abec609c6c"
+  },
+  "text": "Node.js je runtime prostredie, ktoré umožňuje beh JavaScriptu mimo webového prehliadača. Je to platforma postavená na engine V8 od Googlu, ktorý je používaný aj v prehliadači Chrome. Node.js umožňuje programátorom písať serverovú stranu aplikácií v JavaScripte, čo znamená, že môžeme vytvárať plnohodnotné backendové aplikácie a webové služby.",
+  "questionId": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "createdAt": {
+    "$date": "2023-07-25T13:19:45.768Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T13:19:45.768Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c11a19402c27cd6c25a5fa"
+  },
+  "text": "Na inštaláciu balíčka v Node.js používame príkaz \"npm install <názov balíčka>\". \"npm\" je správca balíčkov pre Node.js (Node Package Manager), a \"install\" je príkaz na inštaláciu balíčka z registra balíčkov NPM (Node Package Registry).",
+  "questionId": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "createdAt": {
+    "$date": "2023-07-26T13:05:29.282Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-26T13:05:29.282Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2671ec32bf4e7c4b4821b"
+  },
+  "text": " Na vytvorenie nového súboru v Node.js používame modul \"fs\" (File System). Správna metóda je \"fs.open('novy_subor.txt', 'w')\", kde 'w' znamená, že súbor sa otvorí v režime zapisovania (write mode).",
+  "questionId": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:46:22.843Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:46:22.843Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c267b6c32bf4e7c4b4828c"
+  },
+  "text": "Na spustenie funkcie každých 2 sekundy v Node.js použijeme funkciu \"setInterval\", ktorá vykoná danú funkciu v pravidelných intervaloch (v tomto prípade každých 2000 milisekúnd).",
+  "questionId": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:48:54.966Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:48:54.966Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2680ac32bf4e7c4b4829b"
+  },
+  "text": "V Node.js môžeme získať hodnotu environmentálnej premennej pomocou objektu \"process.env\". Správna syntax pre prístup k hodnote premennej je \"process.env.VARIABLE_NAME\".",
+  "questionId": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:50:18.976Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:50:18.976Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c2684cc32bf4e7c4b482b0"
+  },
+  "text": "Na spustenie súboru s príponou .js v Node.js používame príkaz \"node <nazov_suboru.js>\". Tento príkaz spustí kód zadaný v súbore s príponou .js.",
+  "questionId": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "createdAt": {
+    "$date": "2023-07-27T12:51:24.344Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:51:24.344Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,73 @@
+[{
+  "_id": {
+    "$oid": "64bf7bf7fa1855c3c4daa837"
+  },
+  "text": "Čo je Node.js?",
+  "createdAt": {
+    "$date": "2023-07-25T07:38:31.397Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T07:38:31.397Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64bf921dbd870e8bf8950395"
+  },
+  "text": "Aký príkaz použijete na inštaláciu balíčka v Node.js?",
+  "createdAt": {
+    "$date": "2023-07-25T09:13:01.579Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-25T09:13:01.579Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c265bbc32bf4e7c4b48205"
+  },
+  "text": "Ako vytvoríte nový súbor v Node.js?",
+  "createdAt": {
+    "$date": "2023-07-27T12:40:27.911Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:40:27.911Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c265c0c32bf4e7c4b48207"
+  },
+  "text": "Ktorá z nasledujúcich metód je správna pre spustenie funkcie každých 2 sekundy v Node.js?",
+  "createdAt": {
+    "$date": "2023-07-27T12:40:32.410Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:40:32.410Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c265c3c32bf4e7c4b48209"
+  },
+  "text": "Ako získať hodnotu environmentálnej premennej (environment variable) v Node.js?",
+  "createdAt": {
+    "$date": "2023-07-27T12:40:35.705Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:40:35.705Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64c265c7c32bf4e7c4b4820b"
+  },
+  "text": "Aký príkaz použijete na spustenie súboru s príponou .js v Node.js?",
+  "createdAt": {
+    "$date": "2023-07-27T12:40:39.985Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-27T12:40:39.985Z"
+  },
+  "__v": 0
+}]
