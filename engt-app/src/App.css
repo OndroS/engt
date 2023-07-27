@@ -37,7 +37,7 @@ code {
   margin: 0 auto;
 }
 
-.header-h1 {
+h1 {
   color: #00070b;
   font-size: 18px;
   font-style: normal;
@@ -45,7 +45,7 @@ code {
   letter-spacing: 0.4px;
 }
 
-.header-h2 {
+h2 {
   color: #00070b;
   font-size: 16px;
   font-style: normal;

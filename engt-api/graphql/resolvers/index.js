@@ -1,3 +1,4 @@
+const dotenv = require("dotenv");
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose')
@@ -7,59 +8,68 @@ const Answer = require('../../models/answer')
 const Hintnote = require('../../models/hintnote')
 const UserAnswers = require('../../models/useranswers')
 
+dotenv.config();
+
 module.exports = {
 
+    // Function to register a new user
     register: async args => {
         try {
             const { email, password } = args.user
 
+            // Create a new User instance with the provided email and encrypted password
             const user = new User({
                 email,
                 password: CryptoJS.AES.encrypt(
                     password,
-                    "sdd786asd212ntz67x" // TODO: relocate to .env
+                    process.env.SECRET_KEY
                 ).toString()
             });
 
+            // Save the newly created user to the database
             const newUser = await user.save()
-            return newUser
 
+            // Return the details of the newly registered user
+            return newUser;
         } catch (error) {
             throw error
         }
     },
 
+    // Function to handle user login
     login: async args => {
         try {
             const { email, password } = args.user
 
+            // Find the user with the provided email in the database
             const user = await User.findOne({ email: email });
 
-            const bytes = CryptoJS.AES.decrypt(user.password, "sdd786asd212ntz67x"); // TODO: relocate to .env
+            // Decrypt the user's password using CryptoJS
+            const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
 
             const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
 
+            // Check if the provided password matches the decrypted password
             if (originalPassword !== password) {
                 throw ("Wrong password or username!");
             }
 
+            // Generate an access token using jwt.sign
             const accessToken = jwt.sign(
                 { id: user._id },
-                "sdd786asd212ntz67x" // TODO: relocate to .env
+                process.env.SECRET_KEY
                 // { expiresIn: "5d" }
             );
 
-            return { email, accessToken }
+            // Return an object containing the user's email and the access token
+            return { email, accessToken };
         } catch (error) {
             throw error
         }
     },
 
+    // Function to fetch all questions from the database
     questions: async (_, context) => {
-        // const { user } = context; // Get the authenticated user from context
-        // if (!user) {
-        //     throw new Error("You are not authenticated!");
-        // }
         try {
             const questionsFetched = await Question.find()
             return questionsFetched;
@@ -69,24 +79,31 @@ module.exports = {
         }
     },
 
+    // Function to create a new question
     createQuestion: async args => {
         try {
             const { text } = args.question
+
+            // Create a new Question instance with the provided text
             const question = new Question({
                 text
             })
             const newQuestion = await question.save()
-            return { ...newQuestion._doc, _id: newQuestion.id }
+
+            // Return an object containing the details of the newly created question, including _id
+            return { ...newQuestion._doc, _id: newQuestion.id };
         }
         catch (error) {
             throw error
         }
     },
 
+    // Function to fetch all answers from the database
     answers: async () => {
         try {
             const answersFetched = await Answer.find()
 
+            // Map the fetched answers to a new array with modified properties
             return answersFetched.map(answer => {
                 return {
                     ...answer._doc,
@@ -103,19 +120,23 @@ module.exports = {
         }
     },
 
+    // Function to create a new answer for a specific question
     createAnswer: async args => {
         try {
             const { text, correct, questionId } = args.answer;
 
+            // Validate the questionId format to ensure it is a valid ObjectId
             if (!mongoose.Types.ObjectId.isValid(questionId)) {
                 throw new Error('Invalid questionId');
             }
 
+            // Check if the question exists in the database
             const existingQuestion = await Question.findById(questionId);
             if (!existingQuestion) {
                 throw new Error('Question not found');
             }
 
+            // Create a new Answer instance with the provided text, correct flag, and associated questionId
             const answer = new Answer({
                 text,
                 correct,
@@ -124,6 +145,7 @@ module.exports = {
 
             const newAnswer = await answer.save();
 
+            // Return an object containing the details of the newly created answer, including _id and questionId
             return {
                 ...newAnswer._doc,
                 _id: newAnswer.id,
@@ -134,9 +156,12 @@ module.exports = {
         }
     },
 
+    // Function to fetch answers based on the provided questionId
     getAnswersByQuestionId: async ({ answer: { _id } }) => {
         try {
             const fetchedAnswers = await Answer.find({ questionId: _id });
+
+            // Map the fetched answers to a new array with modified properties
             return fetchedAnswers.map(answer => {
                 return {
                     ...answer._doc,
@@ -151,9 +176,12 @@ module.exports = {
         }
     },
 
+    // Function to fetch all hint notes from the database
     hintnotes: async () => {
         try {
             const hintnotesFetched = await Hintnote.find()
+
+            // Map the fetched hint notes to a new array with modified properties
             return hintnotesFetched.map(hintnote => {
                 return {
                     ...hintnote._doc,
@@ -170,19 +198,23 @@ module.exports = {
         }
     },
 
+    // Function to create a new hintnote for a specific question
     createHintnote: async args => {
         try {
             const { text, questionId } = args.hintnote;
 
+            // Validate the questionId format to ensure it is a valid ObjectId
             if (!mongoose.Types.ObjectId.isValid(questionId)) {
                 throw new Error('Invalid questionId');
             }
 
+            // Check if the question exists in the database
             const existingQuestion = await Question.findById(questionId);
             if (!existingQuestion) {
                 throw new Error('Question not found');
             }
 
+            // Create a new Hintnote instance with the provided text and associated questionId
             const hintnote = new Hintnote({
                 text,
                 questionId: existingQuestion._id,
@@ -190,6 +222,7 @@ module.exports = {
 
             const newHintnote = await hintnote.save();
 
+            // Return an object containing the details of the newly created hint note
             return {
                 ...newHintnote._doc,
                 _id: newHintnote.id,
@@ -200,17 +233,18 @@ module.exports = {
         }
     },
 
-    getAllQuestionsWithAnswers: async () => { // TODO: Use mongo populate instead
+    // Function to fetch all questions with their associated answers and hint notes
+    getAllQuestionsWithAnswers: async () => { // TODO: If time left, use mongo populate instead
         try {
-            // Fetch all questions
             const questions = await Question.find();
 
-            // Fetch answers and hint notes for each question and create the QuestionWithDetails array
+            // Use Promise.all to concurrently fetch answers and hintnotes for each question
             const questionWithDetailsArray = await Promise.all(
                 questions.map(async (question) => {
                     const answers = await Answer.find({ questionId: question._id });
                     const hintNotes = await Hintnote.find({ questionId: question._id });
 
+                    // Return an object with question, answers, and hintnotes details
                     return {
                         question: {
                             ...question._doc,
@@ -237,23 +271,32 @@ module.exports = {
                 })
             );
 
+            // Return an array of questions with their associated answers and hintnotes
             return questionWithDetailsArray;
         } catch (error) {
             throw error;
         }
     },
 
-    getUserAnswers: async () => { // TODO: HOTFIX, BE MERCIFUL WHO IS READING THIS
+    // Function to get user answers from the database
+    getUserAnswers: async () => {
         try {
+            // Fetch user answers from the database and sort them in descending order of creation time
             const userAnswersFetched = await UserAnswers.find().sort({ createdAt: -1 });
 
+            // Check if there are any user answers in the database
             if (userAnswersFetched.length === 0) {
+                // If no user answers are found, return null to indicate no data
                 return null;
             }
-
+            // Get the most recent user answer from the sorted list (first element)
             const newestUserAnswer = userAnswersFetched[0];
-            const { userAnswers, currentQuestionIndex } = newestUserAnswer;
 
+            // Extract userAnswers and currentQuestionIndex from the newestUserAnswer
+
+            const { userAnswers, currentQuestionIndex } = newestUserAnswer;
+            // Return an object with the userAnswers and currentQuestionIndex, along with other properties from newestUserAnswer
+            // We use spread operator to include all other properties from newestUserAnswer
             return {
                 ...newestUserAnswer._doc,
                 userAnswers,
@@ -265,18 +308,33 @@ module.exports = {
         }
     },
 
-    createUserAnswers: async args => { // TODO: HOTFIX, BE MERCIFUL WHO IS READING THIS
+    // Function to create or update user answers in the database
+    createUserAnswers: async args => {
         try {
             const { userAnswers, currentQuestionIndex } = args.userAnswers;
 
-            const useranswer = new UserAnswers({
-                userAnswers,
-                currentQuestionIndex
-            });
+            // Find the last user answer record
+            const lastUserAnswer = await UserAnswers.findOne().sort({ createdAt: -1 });
 
-            const newUseranswer = await useranswer.save();
+            if (lastUserAnswer) {
+                // If an existing user answer record is found, update it with the new data
+                lastUserAnswer.userAnswers = userAnswers;
+                lastUserAnswer.currentQuestionIndex = currentQuestionIndex;
+                const updatedUserAnswer = await lastUserAnswer.save();
 
-            return newUseranswer;
+                // Return the updated user answer
+                return updatedUserAnswer;
+            } else {
+                // If no previous record exists, create a new UserAnswers 
+                const newUserAnswer = new UserAnswers({
+                    userAnswers,
+                    currentQuestionIndex
+                });
+                const savedUserAnswer = await newUserAnswer.save();
+
+                // Return the newly created user answer
+                return savedUserAnswer;
+            }
         } catch (error) {
             throw error;
         }
