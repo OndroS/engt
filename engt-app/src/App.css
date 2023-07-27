@@ -15,6 +15,12 @@
     url(./fonts/Barlow-Regular.ttf) format("truetype");
 }
 
+code {
+  border-radius: 3px;
+  background: rgba(0, 127, 255, 0.1);
+  color: #007fff;
+}
+
 .App {
   text-align: center;
   font-family: "Barlow-Regular";

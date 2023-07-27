@@ -69,16 +69,16 @@ function App() {
     useEffect(() => {
         if (!loading && data) {
             setLoadedUserAnswers(data.getUserAnswers)
-            console.log('setLoadedUserAnswers', data.getUserAnswers)
+            // console.log('setLoadedUserAnswers', data.getUserAnswers)
             if (data.getUserAnswers.userAnswers) {
                 setIsPaused(true)
                 setShowBtnNext(true)
-                console.log('lol', JSON.parse(data.getUserAnswers.userAnswers))
+                // console.log('lol', JSON.parse(data.getUserAnswers.userAnswers))
                 const obj = JSON.parse(data.getUserAnswers.userAnswers);
                 for (const key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         const correctValue = obj[key].correct;
-                        console.log('correctValue ', correctValue);
+                        // console.log('correctValue ', correctValue);
                         setShowHintNote(!correctValue)
                     }
                 }
@@ -154,8 +154,8 @@ function App() {
 
     function calculateUserScore(_userAnswers, _loadedAnswers) {
 
-        console.log('userAnswers', _userAnswers)
-        console.log('_loadedAnswers', _loadedAnswers)
+        // console.log('userAnswers', _userAnswers)
+        // console.log('_loadedAnswers', _loadedAnswers)
 
         let mergedObj = _userAnswers;
 
@@ -166,7 +166,7 @@ function App() {
             };
         }
 
-        console.log('mergedObj', mergedObj)
+        // console.log('mergedObj', mergedObj)
 
         const totalQuestions = Object.keys(data.getAllQuestionsWithAnswers).length;
         let correctAnswers = 0;
@@ -247,7 +247,7 @@ function App() {
                         {finished &&
                             <div>
                                 <div className='score-header'>
-                                    Skóre: {score}%
+                                    Skóre: {Math.round(score)}%
                                 </div>
                                 <div className='score-text'>
                                     {numCorrectAnswers} z {data.getAllQuestionsWithAnswers.length} otázek máš správně

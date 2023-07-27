@@ -265,7 +265,7 @@ module.exports = {
         }
     },
 
-    createUserAnswers: async args => {
+    createUserAnswers: async args => { // TODO: HOTFIX, BE MERCIFUL WHO IS READING THIS
         try {
             const { userAnswers, currentQuestionIndex } = args.userAnswers;
 

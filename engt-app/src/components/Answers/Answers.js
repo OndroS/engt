@@ -1,6 +1,7 @@
+import './Answers.css'
 import React from 'react';
 import { XCircleFill } from 'react-bootstrap-icons';
-import './Answers.css'
+import DOMPurify from 'dompurify';
 
 const Answers = (props) => {
     
@@ -32,7 +33,8 @@ const Answers = (props) => {
 
                     <div key={answer._id}>
                         <div onClick={() => props.handleSelectAnswer(props.currentQuestion._id, answer._id, answer.correct)} className={buttonClassName}>
-                            <div>{answer.text}</div>
+                            {/* <div>{answer.text}</div> */}
+                            <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(answer.text) }}></div>
                             <div className={resultClassName}>{buttonText}</div>
                         </div>
                     </div>
@@ -41,7 +43,6 @@ const Answers = (props) => {
             {props.showHintNote && (
                 <div className="hintnote">
                     <p><XCircleFill /><span className='result-wrong'>Špatně</span>{props.data.getAllQuestionsWithAnswers[props.currentQuestionIndex].hintnotes[0].text}</p>
-                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
                 </div>
             )}
         </div>
